@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Kupidon — знакомства с душой</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(145deg, #FFF9F0 0%, #FEE3D4 100%);
+            min-height: 100vh;
+            padding-top: 70px;
+        }
+
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(226, 125, 92, 0.25);
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .menu-icon, .search-icon {
+            font-size: 1.4rem;
+            color: #BC6F4A;
+            cursor: pointer;
+            background: none;
+            border: none;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #D96C4A, #A35132);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .account-btn, .my-profile-btn {
+            background: #FFF0E6;
+            border: 1px solid #FFDCC8;
+            padding: 6px 14px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.8rem;
+            color: #BC6F4A;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .account-btn:hover, .my-profile-btn:hover {
+            background: #E27D5C;
+            color: white;
+            border-color: #E27D5C;
+        }
+
+        .avatar-icon {
+            background: #F2E2D4;
+            width: 38px;
+            height: 38px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .avatar-icon:hover {
+            background: #E27D5C;
+            color: white;
+        }
+
+        .grid-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+        }
+
+        @media (max-width: 900px) {
+            .grid-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .grid-container {
+                grid-template-columns: 1fr;
+                padding: 16px;
+            }
+            body {
+                padding-top: 100px;
+            }
+        }
+
+        .profile-card {
+            background: white;
+            border-radius: 28px;
+            overflow: hidden;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+        }
+
+        .profile-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 28px rgba(0,0,0,0.12);
+        }
+
+        .photo-area {
+            position: relative;
+            height: 300px;
+            background: #EADACA;
+        }
+
+        .photo-area img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .live-badge {
+            position: absolute;
+            bottom: 12px;
+            left: 12px;
+            background: rgba(0,0,0,0.65);
+            backdrop-filter: blur(8px);
+            border-radius: 20px;
+            padding: 5px 12px;
+            font-size: 0.7rem;
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .green-dot {
+            width: 8px;
+            height: 8px;
+            background: #2DD4BF;
+            border-radius: 50%;
+            animation: pulse 1.5s infinite;
+        }
+
+        @keyframes pulse {
+            0% { opacity: 0.5; transform: scale(0.9);}
+            100% { opacity: 1; transform: scale(1.2);}
+        }
+
+        .content {
+            padding: 18px;
+        }
+
+        .name-age {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 1.45rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+        }
+
+        .bio {
+            font-size: 0.82rem;
+            color: #5a4a3a;
+            margin: 10px 0;
+            background: #FBF5EF;
+            padding: 10px 14px;
+            border-radius: 18px;
+            line-height: 1.4;
+        }
+
+        .interests {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .interest-tag {
+            background: #FFF0E6;
+            border-radius: 20px;
+            padding: 5px 12px;
+            font-size: 0.7rem;
+            font-weight: 500;
+            color: #BC6F4A;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.75);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 36px;
+            max-width: 500px;
+            width: 90%;
+            padding: 28px;
+            max-height: 85vh;
+            overflow-y: auto;
+        }
+
+        .modal-content h3 {
+            margin-bottom: 18px;
+            color: #D96C4A;
+            font-size: 1.6rem;
+        }
+
+        .modal-content input, .modal-content textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0;
+            border: 1px solid #FFDCC8;
+            border-radius: 24px;
+            font-family: inherit;
+            font-size: 0.9rem;
+        }
+
+        .modal-content button {
+            background: #E27D5C;
+            color: white;
+            border: none;
+            padding: 12px;
+            border-radius: 40px;
+            width: 100%;
+            margin-top: 12px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .modal-content button:hover {
+            background: #c55a3a;
+            transform: scale(1.01);
+        }
+
+        .contact-info {
+            background: #FBF5EF;
+            padding: 14px;
+            border-radius: 24px;
+            margin: 14px 0;
+            line-height: 1.6;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .action-btn {
+            flex: 1;
+            background: #FFF0E6;
+            border: none;
+            padding: 10px;
+            border-radius: 40px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .action-btn.like {
+            background: #E27D5C;
+            color: white;
+        }
+
+        .action-btn.like:hover {
+            background: #c55a3a;
+        }
+
+        .action-btn:hover {
+            transform: scale(1.02);
+        }
+
+        .photo-preview {
+            width: 100px;
+            height: 100px;
+            border-radius: 20px;
+            object-fit: cover;
+            margin: 12px 0;
+            border: 3px solid #FFDCC8;
+        }
+
+        .file-input-label {
+            background: #FFF0E6;
+            border: 1px solid #FFDCC8;
+            padding: 12px;
+            border-radius: 40px;
+            text-align: center;
+            cursor: pointer;
+            display: block;
+            margin: 10px 0;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .file-input-label:hover {
+            background: #ffe0d0;
+        }
+
+        .notification {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: #E27D5C;
+            color: white;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            z-index: 3000;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            animation: fadeInOut 2.2s ease forwards;
+            font-weight: 500;
+        }
+
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            15% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            85% { opacity: 1; transform: translateX(-50%) translateY(0); }
+            100% { opacity: 0; transform: translateX(-50%) translateY(20px); visibility: hidden; }
+        }
+
+        @media (max-width: 600px) {
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <div class="nav-left">
+        <button class="menu-icon" id="menuBtn"><i class="fas fa-bars"></i></button>
+        <div class="logo">Kupidon<span>✦</span></div>
+        <button class="search-icon" id="searchBtn"><i class="fas fa-search"></i></button>
+    </div>
+    <div class="nav-right">
+        <button class="account-btn" id="loginBtn"><i class="fas fa-sign-in-alt"></i> Вход</button>
+        <div class="avatar-icon" id="avatarBtn"><i class="fas fa-user"></i></div>
+    </div>
+</div>
+
+<div class="grid-container" id="profilesGrid"></div>
+
+<div id="loginModal" class="modal">
+    <div class="modal-content">
+        <h3>Вход в Kupidon</h3>
+        <input type="text" id="loginName" placeholder="Имя пользователя" value="Алексей">
+        <input type="password" id="loginPass" placeholder="Любой пароль" value="123">
+        <button id="doLoginBtn">Войти / Зарегистрироваться</button>
+        <p style="font-size:0.7rem; margin-top:14px; text-align:center; color:#A18262;">Демо: любые данные работают</p>
+    </div>
+</div>
+
+<div id="profileModal" class="modal">
+    <div class="modal-content" id="profileModalContent"></div>
+</div>
+
+<div id="myProfileModal" class="modal">
+    <div class="modal-content" id="dynamicProfileForm"></div>
+</div>
+
+<script>
+    (function() {
+        let currentUser = JSON.parse(localStorage.getItem('kupidon_user')) || null;
+        let myProfile = JSON.parse(localStorage.getItem('kupidon_myprofile')) || null;
+        let likedProfiles = JSON.parse(localStorage.getItem('kupidon_likes')) || [];
+        let tempPhotoBase64 = null;
+
+        const fakeProfiles = [
+            { id: 1, name: "София", age: 26, gender: "female", city: "Москва", distance: "2 км", bio: "Люблю джаз и прогулки по набережной. Ищу вдохновение и новые знакомства.", interests: ["Фотография", "Джаз", "Прогулки"], img: "https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?w=500", online: true, phone: "+7 999 123-45-67", social: "tg: @sofia_music" },
+            { id: 2, name: "Даниил", age: 29, gender: "male", city: "Санкт-Петербург", distance: "4 км", bio: "UX-дизайнер, обожаю готовить пасту и смотреть закаты на крыше.", interests: ["Дизайн", "Паста", "Закаты"], img: "https://images.pexels.com/photos/2379004/pexels-photo-2379004.jpeg?w=500", online: false, phone: "+7 912 345-67-89", social: "ig: dan_design" },
+            { id: 3, name: "Алиса", age: 24, gender: "female", city: "Казань", distance: "12 км", bio: "Фотограф и путешественник. В прошлом году объехала 5 стран. Ищу попутчика.", interests: ["Travel", "Фото", "Кофе"], img: "https://images.pexels.com/photos/1181690/pexels-photo-1181690.jpeg?w=500", online: true, phone: "+7 987 654-32-10", social: "tg: @alisa_photo" },
+            { id: 4, name: "Матвей", age: 31, gender: "male", city: "Екатеринбург", distance: "3 км", bio: "Разработчик, бегаю марафоны. Ценю честность и уютные вечера с настолками.", interests: ["Бег", "Код", "Настолки"], img: "https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?w=500", online: false, phone: "+7 922 111-22-33", social: "vk: matvey_run" },
+            { id: 5, name: "Ева", age: 27, gender: "female", city: "Краснодар", distance: "7 км", bio: "Врач, который лечит добром. Обожаю цветы, свою собаку и утренний эспрессо.", interests: ["Собаки", "Цветы", "Медитация"], img: "https://images.pexels.com/photos/415829/pexels-photo-415829.jpeg?w=500", online: true, phone: "+7 918 777-88-99", social: "ig: eva_doctor" },
+            { id: 6, name: "Лев", age: 28, gender: "male", city: "Новосибирск", distance: "15 км", bio: "Актёр и ведущий. Ищу девушку с чувством юмора, вместе ходить в театры и горы.", interests: ["Театр", "Походы", "Стендап"], img: "https://images.pexels.com/photos/1043474/pexels-photo-1043474.jpeg?w=500", online: false, phone: "+7 913 444-55-66", social: "tg: lev_actor" },
+            { id: 7, name: "Майя", age: 23, gender: "female", city: "Сочи", distance: "21 км", bio: "Серфинг и авторские завтраки. Жизнь — это приключение, зови меня!", interests: ["Серфинг", "Авокадо", "Подкасты"], img: "https://images.pexels.com/photos/1036623/pexels-photo-1036623.jpeg?w=500", online: true, phone: "+7 938 555-66-77", social: "ig: maya_surf" },
+            { id: 8, name: "Андрей", age: 34, gender: "male", city: "Москва", distance: "1.2 км", bio: "Адвокат в душе романтик. Вечерами читаю стихи и завожу пластинку.", interests: ["Право", "Поэзия", "Винил"], img: "https://images.pexels.com/photos/91227/pexels-photo-91227.jpeg?w=500", online: true, phone: "+7 916 222-33-44", social: "tg: andrey_law" },
+            { id: 9, name: "Вера", age: 25, gender: "female", city: "Ростов-на-Дону", distance: "8 км", bio: "Рисую картины и играю в театре. Ищу человека с добрым сердцем.", interests: ["Живопись", "Театр", "Кошки"], img: "https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?w=500", online: false, phone: "+7 908 111-22-33", social: "ig: vera_art" },
+            { id: 10, name: "Марк", age: 30, gender: "male", city: "Нижний Новгород", distance: "5 км", bio: "Инженер-строитель, люблю созидать и спортзал.", interests: ["Архитектура", "Спортзал", "Кино"], img: "https://images.pexels.com/photos/614810/pexels-photo-614810.jpeg?w=500", online: true, phone: "+7 930 888-99-00", social: "vk: mark_engineer" }
+        ];
+
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            setTimeout(() => {
+                if (notification && notification.parentNode) notification.remove();
+            }, 2200);
+        }
+
+        function getDisplayProfiles() {
+            if (!myProfile) return fakeProfiles;
+            return fakeProfiles.filter(p => p.name !== myProfile.name);
+        }
+
+        function renderGrid() {
+            const grid = document.getElementById('profilesGrid');
+            const profilesToShow = getDisplayProfiles();
+            grid.innerHTML = '';
+            for (let p of profilesToShow) {
+                const isLiked = likedProfiles.includes(p.id);
+                const statusText = p.online ? 'В сети' : (p.gender === 'male' ? 'Был недавно' : 'Была недавно');
+                const statusDot = p.online ? '<div class="green-dot"></div>' : '<i class="fas fa-clock"></i>';
+                
+                const card = document.createElement('div');
+                card.className = 'profile-card';
+                card.innerHTML = `
+                    <div class="photo-area">
+                        <img src="${p.img}" alt="${p.name}" loading="lazy">
+                        <div class="live-badge">${statusDot}<span>${statusText}</span></div>
+                    </div>
+                    <div class="content">
+                        <div class="name-age">
+                            <span>${p.name}, ${p.age}</span>
+                            <span>${isLiked ? '❤️' : '🤍'}</span>
+                        </div>
+                        <div class="bio">${p.bio.length > 70 ? p.bio.substring(0, 70) + '...' : p.bio}</div>
+                        <div class="interests">${p.interests.map(i => `<span class="interest-tag">${i}</span>`).join('')}</div>
+                    </div>
+                `;
+                card.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    showProfileModal(p);
+                });
+                grid.appendChild(card);
+            }
+        }
+
+        function showProfileModal(profile) {
+            const isLiked = likedProfiles.includes(profile.id);
+            const modalContent = document.getElementById('profileModalContent');
+            modalContent.innerHTML = `
+                <h3>${profile.name}, ${profile.age} лет</h3>
+                <div class="contact-info">
+                    <i class="fas fa-phone-alt"></i> ${profile.phone}<br>
+                    <i class="fab fa-telegram"></i> ${profile.social}
+                </div>
+                <p><strong><i class="fas fa-map-marker-alt"></i> ${profile.city}</strong> · ${profile.distance}</p>
+                <p><i class="fas fa-quote-left"></i> ${profile.bio}</p>
+                <div class="interests">${profile.interests.map(i => `<span class="interest-tag">${i}</span>`).join('')}</div>
+                <div class="action-buttons">
+                    <button class="action-btn like" id="likeBtn">${isLiked ? '❤️ Лайкнут' : '🤍 Лайкнуть'}</button>
+                    <button class="action-btn" id="msgBtn"><i class="fas fa-comment"></i> Написать</button>
+                    <button class="action-btn" id="superBtn"><i class="fas fa-star"></i> Суперлайк</button>
+                </div>
+                <button id="closeModalBtn" style="margin-top:16px; background:#aaa;">Закрыть</button>
+            `;
+            document.getElementById('profileModal').style.display = 'flex';
+
+            document.getElementById('likeBtn').onclick = () => {
+                if (likedProfiles.includes(profile.id)) {
+                    likedProfiles = likedProfiles.filter(id => id !== profile.id);
+                    showNotification(`💔 Вы убрали лайк у ${profile.name}`);
+                } else {
+                    likedProfiles.push(profile.id);
+                    showNotification(`❤️ Вы лайкнули ${profile.name}!`);
+                }
+                localStorage.setItem('kupidon_likes', JSON.stringify(likedProfiles));
+                renderGrid();
+                document.getElementById('profileModal').style.display = 'none';
+                setTimeout(() => showProfileModal(profile), 100);
+            };
+            document.getElementById('msgBtn').onclick = () => showNotification(`💬 Демо-чат с ${profile.name} (функция в разработке)`);
+            document.getElementById('superBtn').onclick = () => showNotification(`⭐ Суперлайк для ${profile.name} отправлен!`);
+            document.getElementById('closeModalBtn').onclick = () => document.getElementById('profileModal').style.display = 'none';
+        }
+
+        function updateUIAfterLogin() {
+            if (currentUser) {
+                const loginBtn = document.getElementById('loginBtn');
+                loginBtn.innerHTML = `<i class="fas fa-user-check"></i> ${currentUser.name}`;
+                loginBtn.className = 'my-profile-btn';
+                loginBtn.onclick = (e) => {
+                    e.preventDefault();
+                    openMyProfileForm();
+                };
+            }
+        }
+
+        function openMyProfileForm() {
+            const modal = document.getElementById('myProfileModal');
+            const container = document.getElementById('dynamicProfileForm');
+            
+            let nameVal = myProfile ? myProfile.name : '';
+            let ageVal = myProfile ? myProfile.age : '';
+            let cityVal = myProfile ? myProfile.city : '';
+            let bioVal = myProfile ? myProfile.bio : '';
+            let interestsVal = myProfile ? (myProfile.interests || []).join(', ') : '';
+            let phoneVal = myProfile ? myProfile.phone : '';
+            let socialVal = myProfile ? myProfile.social : '';
+            let previewHtml = '';
+            
+            if (myProfile && myProfile.img && myProfile.img.startsWith('data:image')) {
+                previewHtml = `<img src="${myProfile.img}" class="photo-preview" id="savedPreview">`;
+                tempPhotoBase64 = myProfile.img;
+            } else {
+                tempPhotoBase64 = null;
+            }
+
+            container.innerHTML = `
+                <h3>Моя анкета</h3>
+                <input type="text" id="myName" placeholder="Имя" value="${escapeHtml(nameVal)}">
+                <input type="number" id="myAge" placeholder="Возраст" value="${ageVal}">
+                <input type="text" id="myCity" placeholder="Город" value="${escapeHtml(cityVal)}">
+                <textarea id="myBio" rows="3" placeholder="О себе">${escapeHtml(bioVal)}</textarea>
+                <input type="text" id="myInterests" placeholder="Интересы через запятую" value="${escapeHtml(interestsVal)}">
+                
+                <label class="file-input-label" for="myPhotoInput">
+                    <i class="fas fa-camera"></i> Выбрать фото с устройства
+                </label>
+                <input type="file" id="myPhotoInput" accept="image/*" style="display:none">
+                <div id="photoPreviewContainer">${previewHtml}</div>
+                
+                <input type="text" id="myPhone" placeholder="Телефон" value="${escapeHtml(phoneVal)}">
+                <input type="text" id="mySocial" placeholder="Соцсети" value="${escapeHtml(socialVal)}">
+                <button id="saveProfileBtn">Сохранить анкету</button>
+                <button id="closeMyProfileBtn" style="background:#bbb; color:#333;">Закрыть</button>
+            `;
+
+            const fileInput = container.querySelector('#myPhotoInput');
+            const previewContainer = container.querySelector('#photoPreviewContainer');
+            
+            fileInput.addEventListener('change', function(e) {
+                const file = e.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(ev) {
+                        tempPhotoBase64 = ev.target.result;
+                        previewContainer.innerHTML = `<img src="${tempPhotoBase64}" class="photo-preview">`;
+                        showNotification('Фото загружено');
+                    };
+                    reader.readAsDataURL(file);
+                } else {
+                    tempPhotoBase64 = null;
+                    previewContainer.innerHTML = '';
+                }
+            });
+
+            const saveBtn = container.querySelector('#saveProfileBtn');
+            saveBtn.onclick = function(e) {
+                e.preventDefault();
+                
+                const interestsArray = container.querySelector('#myInterests').value
+                    .split(',')
+                    .map(i => i.trim())
+                    .filter(i => i);
+                    
+                const newProfile = {
+                    id: 999,
+                    name: container.querySelector('#myName').value || 'Я',
+                    age: parseInt(container.querySelector('#myAge').value) || 25,
+                    gender: 'other',
+                    city: container.querySelector('#myCity').value || 'Мой город',
+                    distance: '0 км',
+                    bio: container.querySelector('#myBio').value || 'Расскажи о себе',
+                    interests: interestsArray.length ? interestsArray : ['Дружба', 'Общение'],
+                    img: tempPhotoBase64 || 'https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?w=500',
+                    online: true,
+                    phone: container.querySelector('#myPhone').value || '+7 999 999-99-99',
+                    social: container.querySelector('#mySocial').value || 'Мои соцсети'
+                };
+                
+                myProfile = newProfile;
+                localStorage.setItem('kupidon_myprofile', JSON.stringify(myProfile));
+                modal.style.display = 'none';
+                showNotification('Анкета сохранена!');
+                renderGrid();
+            };
+
+            const closeBtn = container.querySelector('#closeMyProfileBtn');
+            closeBtn.onclick = () => modal.style.display = 'none';
+            
+            modal.style.display = 'flex';
+        }
+
+        function escapeHtml(str) {
+            if (!str) return '';
+            return str.replace(/[&<>]/g, function(m) {
+                if (m === '&') return '&amp;';
+                if (m === '<') return '&lt;';
+                if (m === '>') return '&gt;';
+                return m;
+            });
+        }
+
+        document.getElementById('loginBtn').onclick = () => document.getElementById('loginModal').style.display = 'flex';
+        
+        document.getElementById('doLoginBtn').onclick = () => {
+            const name = document.getElementById('loginName').value.trim();
+            if (name) {
+                currentUser = { name: name };
+                localStorage.setItem('kupidon_user', JSON.stringify(currentUser));
+                document.getElementById('loginModal').style.display = 'none';
+                updateUIAfterLogin();
+                renderGrid();
+                showNotification(`✨ Добро пожаловать, ${name}!`);
+            } else {
+                showNotification('Введите имя');
+            }
+        };
+        
+        document.getElementById('avatarBtn').onclick = () => {
+            if (currentUser) {
+                openMyProfileForm();
+            } else {
+                showNotification('Сначала войдите в аккаунт');
+            }
+        };
+        
+        document.getElementById('menuBtn').onclick = () => showNotification('Меню: фильтры, сообщения, настройки');
+        document.getElementById('searchBtn').onclick = () => showNotification('Поиск по городу, интересам, возрасту');
+
+        if (currentUser) updateUIAfterLogin();
+        renderGrid();
+    })();
+</script>
+</body>
+</html>
